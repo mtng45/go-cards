@@ -9,13 +9,11 @@ func main() {
 	card := newCard()
 	fmt.Println(card)
 
-	cards := []string{"Ace of Diamonds", newCard()}
+	cards := deck{"Ace of Diamonds", newCard()}
 	// append は Slice を変更せず、新しい Slice を返す => 重要
 	cards = append(cards, "Six of Spades")
 
-	for i, card := range cards {
-		fmt.Println(i, card)
-	}
+	cards.print() // deck 型に print メソッドを定義しているため、これが使用できる
 }
 
 func newCard() string {
