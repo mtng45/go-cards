@@ -5,5 +5,8 @@ func main() {
 	// 既存の変数に新しい値を代入する場合は、= でよい
 	cards := newDeck()
 
-	cards.print() // deck 型に print メソッドを定義しているため、これが使用できる
+	hand, remainingCards := deal(cards, 5)
+
+	hand.print()
+	remainingCards.print()
 }
