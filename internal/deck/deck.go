@@ -1,9 +1,10 @@
-package main
+package deck
 
 import (
 	"fmt"
 	"math/rand"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -12,7 +13,7 @@ import (
 
 type deck []string
 
-func newDeck() deck {
+func NewDeck() deck {
 	cards := deck{}
 
 	cardSuits := []string{"Spades", "Diamonds", "Hearts", "Clubs"}
@@ -28,7 +29,7 @@ func newDeck() deck {
 	return cards
 }
 
-func (d deck) print() {
+func (d deck) Print() {
 	for i, card := range d {
 		fmt.Println(i, card)
 	}
@@ -42,12 +43,27 @@ func (d deck) toString() string {
 	return strings.Join([]string(d), ",")
 }
 
-func (d deck) saveToFile(filename string) error {
-	return os.WriteFile(filename, []byte(d.toString()), 0666) // 0666 はパーミッション
+func (d deck) SaveToFile(filename string) error {
+	// プロジェクトルートディレクトリのパスを取得
+	rootDir, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("Error: failed to get root directory: %w", err)
+	}
+
+	// out ディレクトリが存在することを確認する
+	if err := os.MkdirAll(filepath.Join(rootDir, "out"), 0755); err != nil {
+		return fmt.Errorf("Error:failed to create out directory: %w", err)
+	}
+
+	// ファイルパスを作成する
+	filepath := filepath.Join("out", filename)
+
+	return os.WriteFile(filepath, []byte(d.toString()), 0666) // 0666 はパーミッション
 }
 
-func newDeckFromFile(filename string) deck {
-	bs, err := os.ReadFile(filename)
+func NewDeckFromFile(filename string) deck {
+	filepath := filepath.Join("out", filename)
+	bs, err := os.ReadFile(filepath)
 	if err != nil {
 		fmt.Println("Error:", err)
 		os.Exit(1)
@@ -56,6 +72,6 @@ func newDeckFromFile(filename string) deck {
 	return deck(strings.Split(string(bs), ","))
 }
 
-func (d deck) shuffle() {
+func (d deck) Shuffle() {
 	rand.Shuffle(len(d), func(i, j int) { d[i], d[j] = d[j], d[i] })
 }

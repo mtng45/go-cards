@@ -1,0 +1,7 @@
+# バイナリ
+/bin/*
+!bin/.gitkeep
+
+# 出力ファイル
+**/out/*
+!**/out/.gitkeep
