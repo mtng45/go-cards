@@ -1,6 +1,6 @@
 # GO-CARDS 🃏
 
-A simple card deck implementation in Go, demonstrating basic Go programming concepts.
+Go でのシンプルなカード デッキの実装。Go プログラミングの基本概念を示す。
 
 ## 🎯 Features
 
